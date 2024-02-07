@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="header-bar">
+  <h2>Search Results</h2>
+  <a href="{% url 'task_list' %}">&#8592; Back</a>
+</div>
+
+<div class="task-list">
+    {% if tasks %}
+        <div class="header">
+            <p>Title</p>
+            <p>Description</p>
+            <p>Category</p>
+            <p>Date</p>
+        </div>
+
+        {% for task in tasks %}
+            <div class="row">
+                <p>{{task.title | title}}</p>
+                <p>{{ task.description }}</p>
+                <p>{{ task.category }}</p>
+                <p>{{ task.created }}</p>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h2>No matching tasks found</h2>
+  {% endif %}
+</div>
+
+{% endblock content %}

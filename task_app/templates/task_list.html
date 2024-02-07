@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+
+<div class="header-bar">
+    <h1>Welcome {{ user.username | title }}</h1>
+    <a href="{% url 'logout' %}">Logout</a>
+</div>
+
+
+<div id="search-add-wrapper">
+    <form id="search-form" method="GET" action="{% url 'search' %}" style="margin-top: 20px; display: flex;" onsubmit="return validateSearchForm()">
+        <div style="position: relative;">
+            <input type="text" name='search-area' id="search-area" value="{{ search_input }}" style="background-color: ''; position: relative;">
+        </div>
+        <input class="button" type="submit" value="Search">
+    </form>
+    <a id="add-link" href="{% url 'create_task' %}">&#x2b;</a>
+</div>
+
+
+
+<div class="task-list">
+    {% if tasks %}
+        <div class="header">
+            <p>Title</p>
+            <p>Description</p>
+            <p>Category</p>
+            <p>Date</p>
+            <p></p>
+        </div>
+
+        {% for task in tasks %}
+            <div class="row">
+                <p>{{task.title | title}}</p>
+                <p>{{ task.description }}</p>
+                <p>{{ task.category }}</p>
+                <p>{{ task.created }}</p>
+                <p style="display: flex; gap: 30px;">
+                    <a href="{% url 'update_task' task.id %}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <a href="{% url 'delete_task' task.id %}">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </p>
+            </div>
+
+           
+        {% endfor %}
+    {% else %}
+        <div class="row">
+            <h2>No tasks available</h2>
+        </div>
+    {% endif %}
+</div>
+
+<script src="{% static 'js/search_validation.js' %}"></script>
+
+
+{% endblock %}
